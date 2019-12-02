@@ -133,6 +133,6 @@ class enigma:
             # Encrypting and writing every line to the encrypted file
             for line in file:
                 encrypted_file.write(self.encrypt_text(line.rstrip())+'\n')
-            # Closing the file
+            # Closing the files
             file.close()
             encrypted_file.close()
