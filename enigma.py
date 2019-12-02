@@ -85,6 +85,9 @@ class enigma:
                 if self.beta % 26 == 0 and self.alpha % 26 != 0 and self.beta >= 25:
                     self.gama += 1
                     self.beta = 1
+            elif letter not in self.alphabet:
+                # If the letter is not in alphabet (spaces or numbers for example) then enigma doesn't encrypt it
+                encrypted_text.append(letter)
             else:
                 # Encrypting throw rotors
                 # Letter is encrypted by first rotor
