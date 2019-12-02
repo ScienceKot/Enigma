@@ -136,6 +136,3 @@ class enigma:
             # Closing the file
             file.close()
             encrypted_file.close()
-
-Enigma = enigma({"b":'a', ' ':' ', 'e':'z'}, alpha=5, beta=17, gama=24)
-Enigma.encrypt_txt('encrypted_text.txt')
