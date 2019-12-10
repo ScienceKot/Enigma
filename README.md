@@ -16,6 +16,7 @@ In this file enigma machine is implemented as a python class. This a class have 
 * The 3 rotors: Alpha, Beta and Gama. They are integers that are used as keys for permutation encryption algorith.
 * The reflector: It is an alphabet turned backward with the letters from steckerbret deleted. It returns the mirror of the the certain letter form the alphabet.
 * permutation function: This function do the k-permutation algorithm.
+* inverse_permutation function: This function do the k-permutation algorithm backward.
 * encrypt_text function: This function encrypts a certain string.
 * encrypt_txt function: This function encrypts a certain file creating a new one.
 
