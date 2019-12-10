@@ -64,7 +64,20 @@ class enigma:
         for iter in range(rotor):
             new_alphabet.insert(0, new_alphabet[-1])
             new_alphabet.pop(-1)
+        print(self.alphabet)
+        print(new_alphabet)
         return new_alphabet
+    def inverse_permutation(self, rotor):
+        ''' This function is permutatting the alphabet depending on the rotors settings on the back way '''
+        new_alphabet = ''.join(self.alphabet)
+        new_alphabet = list(new_alphabet)
+        for iter in range(rotor):
+            new_alphabet.append(new_alphabet[0])
+            new_alphabet.pop(0)
+        print(self.alphabet)
+        print(new_alphabet)
+        return new_alphabet
+
     def encrypt_text(self, text):
         ''' This function encrypts a string '''
         encrypted_text = []
@@ -79,43 +92,51 @@ class enigma:
                 encrypted_text.append(self.steckerbrett[letter])
                 # Turning the rotors
                 self.alpha += 1
-                if self.alpha % 26 == 0:
+                if self.alpha % len(self.alphabet) == 0:
                     self.beta += 1
                     self.alpha = 0
-                if self.beta % 26 == 0 and self.alpha % 26 != 0 and self.beta >= 25:
+                if self.beta % len(self.alphabet) == 0 and self.alpha % len(self.alphabet) != 0 and self.beta >= len(
+                        self.alphabet) - 1:
                     self.gama += 1
                     self.beta = 1
-            elif letter not in self.alphabet:
-                # If the letter is not in alphabet (spaces or numbers for example) then enigma doesn't encrypt it
-                encrypted_text.append(letter)
             else:
                 # Encrypting throw rotors
                 # Letter is encrypted by first rotor
                 temp_letter = self.permutate(self.alpha)[self.alphabet.index(letter)]
+                print("alpha - {}".format(temp_letter))
                 # Letter is encrypted by second rotor
                 temp_letter = self.permutate(self.beta)[self.alphabet.index(temp_letter)]
+                print("beta - {}".format(temp_letter))
                 # Letter is encrypted by third rotor
                 temp_letter = self.permutate(self.gama)[self.alphabet.index(temp_letter)]
+                print("gama - {}".format(temp_letter))
                 # Reflector is returning the inverse of that letter
+                print(temp_letter)
                 temp_letter = self.reflector[self.alphabet.index(temp_letter)]
+                print("reflector - > {}".format(temp_letter))
                 # Back way
                 # Letter is encrypted by third rotor
-                temp_letter = self.permutate(self.gama)[self.alphabet.index(temp_letter)]
+                temp_letter = self.inverse_permutation(self.gama)[self.alphabet.index(temp_letter)]
+                print("gama - {}".format(temp_letter))
                 # Letter is encrypted by second rotor
-                temp_letter = self.permutate(self.beta)[self.alphabet.index(temp_letter)]
+                temp_letter = self.inverse_permutation(self.beta)[self.alphabet.index(temp_letter)]
+                print("beta - {}".format(temp_letter))
                 # Letter is encrypted by first rotor
-                temp_letter = self.permutate(self.alpha)[self.alphabet.index(temp_letter)]
+                temp_letter = self.inverse_permutation(self.alpha)[self.alphabet.index(temp_letter)]
+                print("alpha - {}".format(temp_letter))
                 encrypted_text.append(temp_letter)
+                print(temp_letter)
                 # turning the rotors
                 self.alpha += 1
-                if self.alpha % 26 == 0:
+                if self.alpha % len(self.alphabet) == 0:
                     self.beta += 1
                     self.alpha = 0
-                if self.beta % 26 == 0 and self.alpha % 26 != 0 and self.beta>=25:
-                    self.gama+=1
+                if self.beta % len(self.alphabet) == 0 and self.alpha % len(self.alphabet) != 0 and self.beta >= len(
+                        self.alphabet) - 1:
+                    self.gama += 1
                     self.beta = 1
+                print('alpha - {}'.format(self.alpha))
         return ''.join(encrypted_text)
-
     def encrypt_txt(self, original_path, encrypted_path = None):
         ''' This function allows to encrypt an entire .txt file '''
         try:
@@ -136,6 +157,6 @@ class enigma:
             # Encrypting and writing every line to the encrypted file
             for line in file:
                 encrypted_file.write(self.encrypt_text(line.rstrip())+'\n')
-            # Closing the files
+            # Closing the file
             file.close()
             encrypted_file.close()
